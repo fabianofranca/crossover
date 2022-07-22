@@ -1,37 +1,40 @@
 package com.fabianofranca.crossover.ui.home
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.fabianofranca.crossover.databinding.FragmentHomeBinding
-import com.fabianofranca.crossover.ui.commons.ViewBindingFragment
-import com.fabianofranca.crossover.ui.commons.toggleVisibility
-import com.google.android.material.snackbar.Snackbar
 
-class HomeFragment : ViewBindingFragment<HomeUiState, HomeViewModel, FragmentHomeBinding>() {
+class HomeFragment : Fragment() {
 
-    override val viewModel by viewModels<HomeViewModel>()
+    private var binding: FragmentHomeBinding? = null
 
-    override fun inflate(
+    override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        attachToParent: Boolean
-    ) = FragmentHomeBinding.inflate(inflater, container, attachToParent)
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-    override suspend fun FragmentHomeBinding.newUiState(uiState: HomeUiState) {
-
-        txtMessage.text = uiState.message
-
-        txtMessage.toggleVisibility(uiState.hasMessage, View.INVISIBLE)
-
-        btnSend.setOnClickListener {
-            uiState.send(edName.text.toString())
+        binding?.apply {
+            btnViewBinding.setOnClickListener {
+                findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToUsersWithViewBinding())
+            }
+            btnCompose.setOnClickListener {
+                findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToUsersWithComposeFragment())
+            }
         }
 
-        uiState.error?.let {
-            Snackbar.make(root, it, Snackbar.LENGTH_SHORT).show()
-            uiState.clearError()
-        }
+        return binding!!.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

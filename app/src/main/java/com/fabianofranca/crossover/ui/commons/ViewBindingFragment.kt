@@ -36,7 +36,9 @@ abstract class ViewBindingFragment<
         attachToParent: Boolean
     ): ViewBinding
 
-    protected fun setupUiState() {
+    protected open fun setupUiState() {
+        binding?.let { setupViews(it) }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
@@ -45,6 +47,10 @@ abstract class ViewBindingFragment<
                     binding?.newUiState(it)
                 }
         }
+    }
+
+    protected open fun setupViews(binding: TViewBinding) {
+        // Set up yours views if need
     }
 
     abstract suspend fun TViewBinding.newUiState(uiState: TUiState)

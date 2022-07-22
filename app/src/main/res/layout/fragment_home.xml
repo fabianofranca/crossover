@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,41 +18,27 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="24dp" />
 
-    <EditText
-        android:id="@+id/edName"
+    <Button
+        android:id="@+id/btnViewBinding"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="@string/input_your_name"
-        app:layout_constraintBottom_toTopOf="@id/btnSend"
+        android:text="@string/view_binding"
+        app:layout_constraintBottom_toTopOf="@id/btnCompose"
         app:layout_constraintEnd_toEndOf="@id/gdRight"
         app:layout_constraintStart_toStartOf="@id/gdLeft"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
-        android:id="@+id/btnSend"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnCompose"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/send"
-        app:layout_constraintBottom_toTopOf="@id/txtMessage"
-        app:layout_constraintEnd_toEndOf="@id/gdRight"
-        app:layout_constraintStart_toStartOf="@id/gdLeft"
-        app:layout_constraintTop_toBottomOf="@id/edName"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <TextView
-        android:id="@+id/txtMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:visibility="invisible"
+        android:text="@string/compose"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/gdRight"
         app:layout_constraintStart_toStartOf="@id/gdLeft"
-        app:layout_constraintTop_toBottomOf="@id/btnSend"
-        app:layout_constraintVertical_chainStyle="packed"
-        tools:text="Hello World!"
-        tools:visibility="visible" />
+        app:layout_constraintTop_toBottomOf="@id/btnViewBinding"
+        app:layout_constraintVertical_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

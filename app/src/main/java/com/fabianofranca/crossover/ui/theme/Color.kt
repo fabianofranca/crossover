@@ -1,4 +1,4 @@
-package com.fabianofranca.crossover.ui.home.ui.theme
+package com.fabianofranca.crossover.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

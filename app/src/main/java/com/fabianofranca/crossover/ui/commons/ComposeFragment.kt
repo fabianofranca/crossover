@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
-import com.fabianofranca.crossover.ui.home.ui.theme.CrossoverTheme
+import com.fabianofranca.crossover.ui.theme.CrossoverTheme
 
 abstract class ComposeFragment<TUiState : UiState, TViewModel : BaseViewModel<TUiState>> :
     Fragment(), Screen<TUiState, TViewModel> {

@@ -1,4 +1,4 @@
-package com.fabianofranca.crossover.ui.home
+package com.fabianofranca.crossover.ui.users
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
@@ -12,15 +12,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.viewModels
 import com.fabianofranca.crossover.R
+import com.fabianofranca.crossover.data.model.UserModel
 import com.fabianofranca.crossover.ui.commons.ComposeFragment
 import kotlinx.coroutines.launch
 
-class HomeComposeFragment : ComposeFragment<HomeUiState, HomeViewModel>() {
+class UsersWithComposeFragment : ComposeFragment<UsersUiState, UsersViewModel>() {
 
-    override val viewModel by viewModels<HomeViewModel>()
+    override val viewModel by viewModels<UsersViewModel>()
 
     @Composable
-    override fun Compose(uiState: HomeUiState) {
+    override fun Compose(uiState: UsersUiState) {
         val (text, setText) = rememberSaveable { mutableStateOf("") }
         val scope = rememberCoroutineScope()
         val snackbarHostState = remember { SnackbarHostState() }
@@ -29,9 +30,9 @@ class HomeComposeFragment : ComposeFragment<HomeUiState, HomeViewModel>() {
             Column {
                 NameInputText(text = text, onTextChange = setText)
                 SendButton(onClick = {
-                    send(text)
+                    // send(text)
                 })
-                MessageText(message = message)
+                // MessageText(message = message)
             }
             error?.let {
                 scope.launch { snackbarHostState.showSnackbar(it) }
@@ -82,9 +83,16 @@ class HomeComposeFragment : ComposeFragment<HomeUiState, HomeViewModel>() {
     fun DefaultPreview() {
         AppTheme {
             Compose(
-                HomeUiState(
-                    message = "Hello world!",
-                    send = {},
+                UsersUiState(
+                    users = listOf(
+                        UserModel(
+                            fullName = "John Wick",
+                            email = "john.wick@gmail.com",
+                            phone = "(31) 90000-0000",
+                            picture = "https://sm.ign.com/ign_br/cover/j/john-wick-/john-wick-chapter-4_129x.jpg"
+                        )
+                    ),
+                    error = null,
                     clearError = {}
                 )
             )
