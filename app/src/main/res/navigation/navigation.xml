@@ -6,12 +6,12 @@
 
     <fragment
         android:id="@+id/usersWithViewBinding"
-        android:name="com.fabianofranca.crossover.ui.users.UsersWithViewBindingFragment"
+        android:name="com.fabianofranca.crossover.ui.users.viewbinding.UsersWithViewBindingFragment"
         android:label="UsersWithViewBindingFragment" />
 
     <fragment
         android:id="@+id/UsersWithComposeFragment"
-        android:name="com.fabianofranca.crossover.ui.users.UsersWithComposeFragment"
+        android:name="com.fabianofranca.crossover.ui.users.compose.UsersWithComposeFragment"
         android:label="UsersWithComposeFragment" />
 
     <fragment

@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">crossover</string>
-    <string name="input_your_name">Input your name</string>
-    <string name="send">Send</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="view_binding">View Binding</string>
     <string name="compose">Compose</string>
+    <string name="Retry">Retry</string>
+    <string name="error_message">Sorry, there was a problem.</string>
 </resources>

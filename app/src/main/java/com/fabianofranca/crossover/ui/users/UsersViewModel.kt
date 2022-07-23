@@ -8,11 +8,13 @@ import com.fabianofranca.crossover.ui.commons.UiState
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class UsersUiState(
-    val users: List<UserModel> = emptyList(),
-    override val error: String? = null,
-    override val clearError: () -> Unit
-) : UiState
+sealed interface UsersUiState : UiState {
+    object Loading : UsersUiState
+
+    data class Success(val users: List<UserModel>) : UsersUiState
+
+    data class Failure(val retry: () -> Unit, val message: String? = null) : UsersUiState
+}
 
 class UsersViewModel(private val useCase: GetUsersUseCase = GetUsersUseCase()) :
     BaseViewModel<UsersUiState>() {
@@ -21,26 +23,20 @@ class UsersViewModel(private val useCase: GetUsersUseCase = GetUsersUseCase()) :
         getUsers()
     }
 
-    override fun initialUiState() = UsersUiState(
-        clearError = ::clearError
-    )
+    override fun initialUiState() = UsersUiState.Loading
 
     private fun getUsers() {
+        mutableUiState.update { UsersUiState.Loading }
+
         viewModelScope.launch {
             try {
                 useCase(1)
                     .collect { users ->
-                        mutableUiState.update {
-                            it.copy(users = users)
-                        }
+                        mutableUiState.update { UsersUiState.Success(users) }
                     }
             } catch (e: Throwable) {
-                mutableUiState.update { it.copy(error = e.message) }
+                mutableUiState.update { UsersUiState.Failure(retry = ::getUsers) }
             }
         }
     }
-
-    override fun clearingError(uiState: UsersUiState) = uiState.copy(
-        error = null
-    )
 }

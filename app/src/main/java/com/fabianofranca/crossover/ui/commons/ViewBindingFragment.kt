@@ -17,15 +17,18 @@ abstract class ViewBindingFragment<
     TViewModel : BaseViewModel<TUiState>,
     TViewBinding : ViewBinding> : Fragment(), Screen<TUiState, TViewModel> {
 
-    private var binding: TViewBinding? = null
+    private var _binding: TViewBinding? = null
+
+    protected val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = inflate(inflater, container, false) as TViewBinding
-        val view = binding!!.root
+        _binding = inflate(inflater, container, false) as TViewBinding
+        val view = binding.root
+        bindingCreated()
         setupUiState()
         return view
     }
@@ -37,19 +40,17 @@ abstract class ViewBindingFragment<
     ): ViewBinding
 
     protected open fun setupUiState() {
-        binding?.let { setupViews(it) }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.uiState
                 .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
                 .distinctUntilChanged()
                 .collect {
-                    binding?.newUiState(it)
+                    binding.newUiState(it)
                 }
         }
     }
 
-    protected open fun setupViews(binding: TViewBinding) {
+    protected open fun bindingCreated() {
         // Set up yours views if need
     }
 
@@ -57,6 +58,6 @@ abstract class ViewBindingFragment<
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
+        _binding = null
     }
 }
