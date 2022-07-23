@@ -1,20 +1,26 @@
 package com.fabianofranca.crossover.ui.users
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.composed
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
+import coil.compose.AsyncImage
 import com.fabianofranca.crossover.R
 import com.fabianofranca.crossover.data.model.UserModel
 import com.fabianofranca.crossover.ui.commons.ComposeFragment
-import kotlinx.coroutines.launch
 
 class UsersWithComposeFragment : ComposeFragment<UsersUiState, UsersViewModel>() {
 
@@ -22,60 +28,72 @@ class UsersWithComposeFragment : ComposeFragment<UsersUiState, UsersViewModel>()
 
     @Composable
     override fun Compose(uiState: UsersUiState) {
-        val (text, setText) = rememberSaveable { mutableStateOf("") }
-        val scope = rememberCoroutineScope()
-        val snackbarHostState = remember { SnackbarHostState() }
-
-        with(uiState) {
-            Column {
-                NameInputText(text = text, onTextChange = setText)
-                SendButton(onClick = {
-                    // send(text)
-                })
-                // MessageText(message = message)
-            }
-            error?.let {
-                scope.launch { snackbarHostState.showSnackbar(it) }
-                clearError()
+        LazyColumn {
+            items(uiState.users) { user ->
+                UserCard(user = user)
             }
         }
-
-        SnackbarHost(hostState = snackbarHostState)
     }
 
     @Composable
-    fun NameInputText(
-        text: String,
-        onTextChange: (String) -> Unit,
-        modifier: Modifier = Modifier
-    ) {
-        TextField(
-            value = text,
-            onValueChange = onTextChange,
-            maxLines = 1,
-            modifier = modifier,
-            label = {
-                Text(stringResource(id = R.string.input_your_name))
+    fun UserCard(user: UserModel, modifier: Modifier = Modifier) {
+        Row(
+            modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colors.surface)
+                .padding(
+                    horizontal = 16.dp,
+                    vertical = 8.dp
+                )
+                .wrapContentHeight()
+        ) {
+            UserImage(user.picture)
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterVertically)
+                    .padding(start = 16.dp)
+            ) {
+                UserCardTitle(user.fullName)
+                UserCardSubTitle(
+                    text = user.email,
+                    modifier = Modifier.padding(vertical = 2.dp)
+                )
+                UserCardSubTitle(user.phone)
             }
+        }
+    }
+
+    @Composable
+    fun UserImage(url: String, modifier: Modifier = Modifier) {
+        AsyncImage(
+            model = url,
+            placeholder = painterResource(id = R.drawable.placeholder),
+            contentDescription = null,
+            modifier = Modifier
+                .size(80.dp)
+                .clip(CircleShape)
+                .composed { modifier }
         )
     }
 
     @Composable
-    fun SendButton(
-        onClick: () -> Unit,
-        modifier: Modifier = Modifier
-    ) {
-        TextButton(
-            onClick = onClick,
+    fun UserCardTitle(text: String, modifier: Modifier = Modifier) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.h6,
             modifier = modifier
-        ) {
-            Text(stringResource(id = R.string.send))
-        }
+        )
     }
 
     @Composable
-    fun MessageText(message: String?) {
-        if (!message.isNullOrBlank()) Text(text = message)
+    fun UserCardSubTitle(text: String, modifier: Modifier = Modifier) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.subtitle2,
+            color = Color(0xff6d6d6d),
+            modifier = modifier
+        )
     }
 
     @Preview(showBackground = true)
@@ -84,18 +102,26 @@ class UsersWithComposeFragment : ComposeFragment<UsersUiState, UsersViewModel>()
         AppTheme {
             Compose(
                 UsersUiState(
-                    users = listOf(
-                        UserModel(
-                            fullName = "John Wick",
-                            email = "john.wick@gmail.com",
-                            phone = "(31) 90000-0000",
-                            picture = "https://sm.ign.com/ign_br/cover/j/john-wick-/john-wick-chapter-4_129x.jpg"
-                        )
-                    ),
+                    users = usersTemplate,
                     error = null,
                     clearError = {}
                 )
             )
         }
     }
+
+    private val usersTemplate = listOf(
+        UserModel(
+            fullName = "John Wick",
+            email = "john.wick@gmail.com",
+            phone = "(31) 90000-0000",
+            picture = ""
+        ),
+        UserModel(
+            fullName = "Normano Nunes",
+            email = "normano.nunes@example.com",
+            phone = "(76) 2945-9421",
+            picture = ""
+        )
+    )
 }
