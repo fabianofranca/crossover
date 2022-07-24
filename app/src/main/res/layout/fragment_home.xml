@@ -35,10 +35,22 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:text="@string/compose"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btnComposeAndGroupie"
         app:layout_constraintEnd_toEndOf="@id/gdRight"
         app:layout_constraintStart_toStartOf="@id/gdLeft"
         app:layout_constraintTop_toBottomOf="@id/btnViewBinding"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/btnComposeAndGroupie"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/compose_groupie"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/gdRight"
+        app:layout_constraintStart_toStartOf="@id/gdLeft"
+        app:layout_constraintTop_toBottomOf="@id/btnCompose"
         app:layout_constraintVertical_chainStyle="packed" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

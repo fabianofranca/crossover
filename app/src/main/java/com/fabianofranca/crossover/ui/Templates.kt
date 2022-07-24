@@ -1,4 +1,4 @@
-package com.fabianofranca.crossover.ui.users.compose
+package com.fabianofranca.crossover.ui
 
 import com.fabianofranca.crossover.data.model.UserModel
 

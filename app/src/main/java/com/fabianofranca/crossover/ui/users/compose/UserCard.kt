@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.fabianofranca.crossover.R
 import com.fabianofranca.crossover.data.model.UserModel
+import com.fabianofranca.crossover.ui.Templates
 
 @Composable
 fun UserCard(user: UserModel, modifier: Modifier = Modifier) {

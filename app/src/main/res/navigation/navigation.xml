@@ -24,5 +24,12 @@
         <action
             android:id="@+id/action_homeFragment_to_UsersWithComposeFragment"
             app:destination="@id/UsersWithComposeFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_usersWithComposeAndGroupieFragment"
+            app:destination="@id/usersWithComposeAndGroupieFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/usersWithComposeAndGroupieFragment"
+        android:name="com.fabianofranca.crossover.ui.users.compose_groupie.UsersWithComposeAndGroupieFragment"
+        android:label="UsersWithComposeAndGroupieFragment" />
 </navigation>

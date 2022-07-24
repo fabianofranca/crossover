@@ -18,7 +18,7 @@
         app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.Circle"
         tools:src="@drawable/placeholder" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/userName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="@tools:sample/full_names" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/userEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
         app:layout_constraintVertical_chainStyle="packed"
         tools:text="jayla.bauer@gmail.com" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/userPhone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

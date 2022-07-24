@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import com.fabianofranca.crossover.R
+import com.fabianofranca.crossover.ui.Templates
 import com.fabianofranca.crossover.ui.commons.ComposeFragment
 import com.fabianofranca.crossover.ui.users.UsersUiState
 import com.fabianofranca.crossover.ui.users.UsersViewModel
@@ -31,19 +32,10 @@ class UsersWithComposeFragment : ComposeFragment<UsersUiState, UsersViewModel>()
     @Composable
     override fun Compose(uiState: UsersUiState) {
         when (uiState) {
-            is UsersUiState.Loading -> Loading()
+            is UsersUiState.Loading -> UsersLoading()
             is UsersUiState.Success -> Success(uiState)
-            is UsersUiState.Failure -> Failure(uiState)
+            is UsersUiState.Failure -> UsersFailure(uiState)
         }
-    }
-
-    @Composable
-    fun Loading() {
-        CircularProgressIndicator(
-            modifier = Modifier
-                .wrapContentHeight()
-                .wrapContentWidth()
-        )
     }
 
     @Composable
@@ -51,32 +43,6 @@ class UsersWithComposeFragment : ComposeFragment<UsersUiState, UsersViewModel>()
         LazyColumn {
             items(uiState.users) { user ->
                 UserCard(user = user)
-            }
-        }
-    }
-
-    @Composable
-    fun Failure(uiState: UsersUiState.Failure) {
-        Column(
-            Modifier
-                .padding(horizontal = 16.dp)
-                .wrapContentHeight()
-        ) {
-            val alignModifier = Modifier
-                .align(Alignment.CenterHorizontally)
-            Text(
-                text = uiState.message ?: stringResource(R.string.error_message),
-                maxLines = 3,
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.h6,
-                modifier = Modifier
-                    .composed { alignModifier }
-            )
-            Button(
-                modifier = alignModifier,
-                onClick = uiState.retry
-            ) {
-                Text(text = stringResource(R.string.Retry))
             }
         }
     }
@@ -110,3 +76,39 @@ class UsersWithComposeFragment : ComposeFragment<UsersUiState, UsersViewModel>()
         }
     }
 }
+
+@Composable
+fun UsersLoading() {
+    CircularProgressIndicator(
+        modifier = Modifier
+            .wrapContentHeight()
+            .wrapContentWidth()
+    )
+}
+
+@Composable
+fun UsersFailure(uiState: UsersUiState.Failure) {
+    Column(
+        Modifier
+            .padding(horizontal = 16.dp)
+            .wrapContentHeight()
+    ) {
+        val alignModifier = Modifier
+            .align(Alignment.CenterHorizontally)
+        Text(
+            text = uiState.message ?: stringResource(R.string.error_message),
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.h6,
+            modifier = Modifier
+                .composed { alignModifier }
+        )
+        Button(
+            modifier = alignModifier,
+            onClick = uiState.retry
+        ) {
+            Text(text = stringResource(R.string.Retry))
+        }
+    }
+}
+

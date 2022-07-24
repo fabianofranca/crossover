@@ -4,16 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import com.bumptech.glide.Glide
 import com.fabianofranca.crossover.R
-import com.fabianofranca.crossover.data.model.UserModel
 import com.fabianofranca.crossover.databinding.FragmentUsersBinding
-import com.fabianofranca.crossover.databinding.ItemUserBinding
 import com.fabianofranca.crossover.ui.commons.ViewBindingFragment
 import com.fabianofranca.crossover.ui.users.UsersUiState
 import com.fabianofranca.crossover.ui.users.UsersViewModel
 import com.xwray.groupie.GroupieAdapter
-import com.xwray.groupie.viewbinding.BindableItem
 
 class UsersWithViewBindingFragment :
     ViewBindingFragment<UsersUiState, UsersViewModel, FragmentUsersBinding>() {
@@ -60,25 +56,5 @@ class UsersWithViewBindingFragment :
 
     override fun bindingCreated() {
         binding.recyclerView.adapter = adapter
-    }
-
-    private class UserItem(private val user: UserModel) : BindableItem<ItemUserBinding>() {
-
-        override fun bind(viewBinding: ItemUserBinding, position: Int) {
-            with(viewBinding) {
-                userName.text = user.fullName
-                userEmail.text = user.email
-                userPhone.text = user.phone
-
-                Glide.with(root)
-                    .load(user.picture)
-                    .placeholder(R.drawable.placeholder)
-                    .into(userImage)
-            }
-        }
-
-        override fun getLayout() = R.layout.item_user
-
-        override fun initializeViewBinding(view: View) = ItemUserBinding.bind(view)
     }
 }

@@ -28,6 +28,10 @@ class HomeFragment : Fragment() {
                 findNavController()
                     .navigate(HomeFragmentDirections.actionHomeFragmentToUsersWithComposeFragment())
             }
+            btnComposeAndGroupie.setOnClickListener {
+                findNavController()
+                    .navigate(HomeFragmentDirections.actionHomeFragmentToUsersWithComposeAndGroupieFragment())
+            }
         }
 
         return binding!!.root
